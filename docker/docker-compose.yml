@@ -1,0 +1,22 @@
+# Clarify-or-Code Docker Compose Configuration
+# Purpose: Local development and sandbox testing composition.
+# Phase: Phase 4 (Docker testing and repair loop).
+
+services:
+  sandbox:
+    build:
+      context: ..
+      dockerfile: docker/sandbox.Dockerfile
+    image: clarify-or-code-sandbox:latest
+    container_name: clarify-or-code-sandbox
+    network_mode: none
+    read_only: true
+    user: "1000:1000"
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=256m
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 2G
+          pids: 100

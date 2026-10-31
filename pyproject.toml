@@ -1,0 +1,66 @@
+[project]
+name = "clarify-or-code"
+version = "0.1.0"
+description = "A multi-agent issue-to-PR system that knows when to ask clarifying questions before patching."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "docker>=7.1.0",
+    "langchain-mcp-adapters>=0.1.0",
+    "langgraph>=0.2.0",
+    "langgraph-checkpoint-sqlite>=2.0.0",
+    "litellm>=1.50.0",
+    "mcp>=1.2.0",
+    "pydantic>=2.10.0",
+    "pydriller>=2.6",
+    "pygithub>=2.5.0",
+]
+
+[project.optional-dependencies]
+app = [
+    "fastapi>=0.115.0",
+    "streamlit>=1.40.0",
+    "uvicorn>=0.32.0",
+]
+ml = [
+    "lightgbm>=4.5.0",
+    "pandas>=2.2.0",
+    "scikit-learn>=1.5.0",
+    "shap>=0.46.0",
+]
+voice = []
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.0",
+    "ruff>=0.8.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/clarify_or_code"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E501",  # line length (docstrings and comments)
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-v --import-mode=importlib"
